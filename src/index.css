@@ -103,3 +103,16 @@ footer a:hover {
     0.9
   ); /* Marron clair avec transparence */
 }
+
+footer {
+  background: linear-gradient(to right, #8d6441, #c3a57b);
+  color: #fff;
+}
+
+footer .hover\\:text-orange-400:hover {
+  color: #e76f51;
+}
+
+footer .hover\\:text-orange-400 {
+  transition: color 0.3s ease;
+}
