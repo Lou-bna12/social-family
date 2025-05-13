@@ -1,13 +1,105 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 body {
+  background-color: #f5f5f5;
+  font-family: 'Arial', sans-serif;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  padding: 0;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+header {
+  background-color: #1d2951;
+}
+
+button {
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #ff7f50;
+}
+
+.header-link {
+  transition: color 0.3s ease;
+}
+
+.header-link:hover {
+  color: #ff7f50; /* Orange hover */
+}
+
+body {
+  background-color: #f0f0f0;
+  font-family: 'Arial', sans-serif;
+}
+
+input:focus,
+button:focus {
+  outline: none;
+  box-shadow: 0 0 5px #1d2951;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f7f9fc;
+}
+
+input[type='text'],
+input[type='email'] {
+  border: 1px solid #ccc;
+  padding: 8px;
+  margin-top: 4px;
+  margin-bottom: 8px;
+  border-radius: 4px;
+}
+
+button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.bg-beige-dark {
+  background-color: #c3a57b; /* Beige foncé */
+}
+
+footer a {
+  transition: color 0.3s;
+}
+
+footer a:hover {
+  color: #ff7043; /* Orange clair */
+}
+
+.bg-gradient-to-r {
+  background: linear-gradient(90deg, #c3a57b, #a9825c, #8d6441);
+}
+
+.bg-transparent {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.backdrop-blur-sm {
+  backdrop-filter: blur(8px);
+}
+
+.bg-gradient-to-r {
+  background: linear-gradient(90deg, #8d6441, #a9825c, #c3a57b);
+}
+
+.bg-opacity-90 {
+  background-color: rgba(
+    141,
+    100,
+    65,
+    0.9
+  ); /* Marron clair avec transparence */
 }

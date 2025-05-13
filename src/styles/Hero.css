@@ -1,0 +1,16 @@
+.hero {
+  position: relative;
+  height: 450px; /* Augmente la hauteur pour plus d'espace */
+  background-size: cover;
+  background-position: center 30%; /* Ajuste cette valeur pour centrer */
+  background-repeat: no-repeat;
+  background-image: url('../assets/family.png');
+}
+
+.hero-content {
+  position: absolute;
+  bottom: 20px; /* Descend le texte vers le bas */
+  width: 100%;
+  text-align: center;
+  color: #ffffff;
+}
