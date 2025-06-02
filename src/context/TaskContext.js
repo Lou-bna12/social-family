@@ -49,12 +49,22 @@ export const TaskProvider = ({ children }) => {
   };
 
   const updateTask = async (id) => {
+    if (!id || typeof id !== 'string') {
+      console.error('ID de tâche invalide :', id);
+      return;
+    }
+
     await updateDoc(doc(db, 'tasks', id), {
       status: 'terminé',
     });
   };
 
   const deleteTask = async (id) => {
+    if (!id || typeof id !== 'string') {
+      console.error('ID de tâche invalide :', id);
+      return;
+    }
+
     await deleteDoc(doc(db, 'tasks', id));
   };
 

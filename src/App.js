@@ -11,12 +11,10 @@ import Profile from './pages/Profile';
 import Tasks from './pages/Tasks';
 import Dashboard from './pages/Dashboard';
 import Messages from './pages/Messages';
-
 import { UserProvider } from './context/UserContext';
 import { NotificationProvider } from './context/NotificationContext';
 import { TaskProvider } from './context/TaskContext';
 import { MessagesProvider } from './context/MessagesContext';
-
 import PrivateRoute from './components/PrivateRoute';
 
 function App() {
