@@ -1,3 +1,4 @@
+// src/components/Features.js
 import React from 'react';
 import {
   PencilIcon,
@@ -31,7 +32,7 @@ const features = [
 
 const Features = () => {
   return (
-    <div className="features-container">
+    <section className="features-container">
       {features.map((feature, index) => (
         <div key={index} className="feature-card">
           {feature.icon}
@@ -39,7 +40,7 @@ const Features = () => {
           <p className="feature-description">{feature.description}</p>
         </div>
       ))}
-    </div>
+    </section>
   );
 };
 

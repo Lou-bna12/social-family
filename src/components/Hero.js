@@ -1,3 +1,4 @@
+// src/components/Hero.js
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import familyImage from '../assets/family.png';
@@ -7,25 +8,24 @@ const Hero = () => {
   const navigate = useNavigate();
 
   return (
-    <div
-      className="relative w-full h-[300px] bg-cover bg-center"
-      style={{
-        backgroundImage: `url(${familyImage})`,
-        backgroundPosition: 'center top',
-      }}
-    >
-      <div className="absolute inset-0 bg-black bg-opacity-30 flex flex-col justify-center items-center">
-        <h1 className="text-white text-2xl font-bold mb-4">
+    <section className="relative w-full h-[800px] overflow-hidden">
+      <img
+        src={familyImage}
+        alt="Famille"
+        className="w-full h-full object-cover object-top"
+      />
+      <div className="absolute inset-0 bg-black bg-opacity-40 flex flex-col justify-center items-center text-center px-4">
+        <h1 className="text-white text-3xl md:text-4xl font-bold mb-6 drop-shadow">
           Restez connectés avec votre famille
         </h1>
         <button
-          className="bg-orange-500 text-white py-2 px-4 rounded hover:bg-orange-600"
+          className="bg-orange-500 hover:bg-orange-600 text-white py-2 px-6 rounded-lg shadow-lg"
           onClick={() => navigate('/signup')}
         >
           Créer un compte
         </button>
       </div>
-    </div>
+    </section>
   );
 };
 

@@ -1,24 +1,31 @@
+/* src/styles/Features.css */
 .features-container {
   display: flex;
   justify-content: center;
-  gap: 30px; /* Augmente l'espace entre les cartes */
-  padding: 40px 20px;
-  margin-top: 20px; /* Espace entre Hero et cartes */
+  flex-wrap: wrap;
+  gap: 2rem;
+  padding: 4rem 2rem;
+  background-color: #f7f9fc;
 }
 
 .feature-card {
-  background-color: #fff;
-  border-radius: 10px;
-  padding: 20px;
-  width: 250px;
-  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 2rem;
+  width: 260px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease;
   text-align: center;
 }
 
+.feature-card:hover {
+  transform: translateY(-6px);
+}
+
 .feature-title {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: bold;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 }
 
 .feature-description {

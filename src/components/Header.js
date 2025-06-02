@@ -1,3 +1,4 @@
+// src/components/Header.js
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
@@ -11,32 +12,32 @@ const Header = () => {
   const navigate = useNavigate();
 
   return (
-    <header className="bg-gradient-to-r from-beige-500 to-beige-700 p-4 shadow-lg flex justify-between items-center">
-      {/* Logo */}
+    <header className="bg-gradient-to-r from-[#c3a57b] to-[#a9825c] p-4 shadow-lg flex justify-between items-center">
       <Link
         to="/"
-        className="text-white font-bold text-xl flex items-center space-x-2 hover:text-orange-500"
+        className="text-white font-bold text-xl flex items-center hover:text-orange-400"
       >
         <HomeIcon className="h-6 w-6 mr-2" />
-        <span>FamNas</span>
+        FamNas
       </Link>
 
-      {/* Nav Links */}
-      <nav className="space-x-6">
-        <Link
-          to="/tasks"
-          className="text-white hover:text-orange-500 flex items-center space-x-1"
-        >
-          <ClipboardDocumentCheckIcon className="h-5 w-5" />
-          <span>Tâches</span>
-        </Link>
+      <nav className="flex items-center gap-6 text-white">
+        {user && (
+          <Link
+            to="/tasks"
+            className="hover:text-orange-400 flex items-center gap-1"
+          >
+            <ClipboardDocumentCheckIcon className="h-5 w-5" />
+            <span>Tâches</span>
+          </Link>
+        )}
 
         {!user ? (
           <>
-            <Link to="/login" className="text-white hover:text-orange-500">
+            <Link to="/login" className="hover:text-orange-400">
               Connexion
             </Link>
-            <Link to="/signup" className="text-white hover:text-orange-500">
+            <Link to="/signup" className="hover:text-orange-400">
               Inscription
             </Link>
           </>
@@ -46,7 +47,7 @@ const Header = () => {
               logoutUser();
               navigate('/login');
             }}
-            className="bg-red-500 px-4 py-2 rounded text-white hover:bg-red-600"
+            className="bg-red-500 px-4 py-1 rounded text-white hover:bg-red-600"
           >
             Déconnexion
           </button>
