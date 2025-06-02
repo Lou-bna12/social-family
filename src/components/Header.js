@@ -1,43 +1,57 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   HomeIcon,
-  UserPlusIcon,
-  ArrowRightOnRectangleIcon,
+  ClipboardDocumentCheckIcon,
 } from '@heroicons/react/24/solid';
+import { useUser } from '../context/UserContext';
 
 const Header = () => {
+  const { user, logoutUser } = useUser();
+  const navigate = useNavigate();
+
   return (
-    <header className="bg-gradient-to-r from-[#C3A57B] via-[#A9825C] to-[#8D6441] bg-opacity-90 backdrop-blur-md py-4 px-6 fixed top-0 left-0 w-full z-50 transition duration-300 ease-in-out">
-      <div className="container mx-auto flex justify-between items-center">
-        {/* Logo / Accueil */}
+    <header className="bg-gradient-to-r from-beige-500 to-beige-700 p-4 shadow-lg flex justify-between items-center">
+      {/* Logo */}
+      <Link
+        to="/"
+        className="text-white font-bold text-xl flex items-center space-x-2 hover:text-orange-500"
+      >
+        <HomeIcon className="h-6 w-6 mr-2" />
+        <span>FamNas</span>
+      </Link>
+
+      {/* Nav Links */}
+      <nav className="space-x-6">
         <Link
-          to="/"
-          className="text-white font-bold text-lg hover:text-orange-400 flex items-center space-x-2"
+          to="/tasks"
+          className="text-white hover:text-orange-500 flex items-center space-x-1"
         >
-          <HomeIcon className="w-6 h-6" />
-          <span>FamNas</span>
+          <ClipboardDocumentCheckIcon className="h-5 w-5" />
+          <span>Tâches</span>
         </Link>
 
-        {/* Liens */}
-        <div className="flex space-x-6">
-          <Link
-            to="/login"
-            className="text-white hover:text-orange-400 flex items-center space-x-2"
+        {!user ? (
+          <>
+            <Link to="/login" className="text-white hover:text-orange-500">
+              Connexion
+            </Link>
+            <Link to="/signup" className="text-white hover:text-orange-500">
+              Inscription
+            </Link>
+          </>
+        ) : (
+          <button
+            onClick={() => {
+              logoutUser();
+              navigate('/login');
+            }}
+            className="bg-red-500 px-4 py-2 rounded text-white hover:bg-red-600"
           >
-            <ArrowRightOnRectangleIcon className="w-5 h-5" />
-            <span>Connexion</span>
-          </Link>
-
-          <Link
-            to="/signup"
-            className="text-white hover:text-orange-400 flex items-center space-x-2"
-          >
-            <UserPlusIcon className="w-5 h-5" />
-            <span>Inscription</span>
-          </Link>
-        </div>
-      </div>
+            Déconnexion
+          </button>
+        )}
+      </nav>
     </header>
   );
 };

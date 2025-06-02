@@ -36,3 +36,21 @@
     transform: rotate(360deg);
   }
 }
+
+.navbar {
+  background: linear-gradient(90deg, #d2b48c, #a56b2a);
+  color: #ffffff;
+  padding: 1rem;
+  position: relative;
+  z-index: 50;
+}
+
+.navbar a {
+  color: #ffffff;
+  margin: 0 0.5rem;
+  transition: color 0.3s ease;
+}
+
+.navbar a:hover {
+  color: #ffae42;
+}

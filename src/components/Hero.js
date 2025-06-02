@@ -1,22 +1,31 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import familyImage from '../assets/family.png';
 import '../styles/Hero.css';
 
 const Hero = () => {
+  const navigate = useNavigate();
+
   return (
-    <section className="hero">
-      <div className="hero-content">
-        <h2 className="text-2xl font-bold mb-4">
+    <div
+      className="relative w-full h-[300px] bg-cover bg-center"
+      style={{
+        backgroundImage: `url(${familyImage})`,
+        backgroundPosition: 'center top',
+      }}
+    >
+      <div className="absolute inset-0 bg-black bg-opacity-30 flex flex-col justify-center items-center">
+        <h1 className="text-white text-2xl font-bold mb-4">
           Restez connectés avec votre famille
-        </h2>
-        <Link
-          to="/signup"
-          className="bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded"
+        </h1>
+        <button
+          className="bg-orange-500 text-white py-2 px-4 rounded hover:bg-orange-600"
+          onClick={() => navigate('/signup')}
         >
           Créer un compte
-        </Link>
+        </button>
       </div>
-    </section>
+    </div>
   );
 };
 
