@@ -1,23 +1,61 @@
-import React, { createContext, useState, useContext } from 'react';
+// src/context/TaskContext.js
+import React, { createContext, useContext, useEffect, useState } from 'react';
+import { db } from '../firebase';
+import {
+  collection,
+  addDoc,
+  updateDoc,
+  deleteDoc,
+  doc,
+  onSnapshot,
+  query,
+  orderBy,
+  serverTimestamp,
+} from 'firebase/firestore';
+import { useUser } from './UserContext';
 
 export const TaskContext = createContext();
+export const useTasks = () => useContext(TaskContext);
 
 export const TaskProvider = ({ children }) => {
   const [tasks, setTasks] = useState([]);
+  const { user } = useUser();
 
-  const addTask = (task) => {
-    setTasks([...tasks, { ...task, status: 'en cours' }]);
+  useEffect(() => {
+    if (!user) return;
+
+    const q = query(collection(db, 'tasks'), orderBy('timestamp', 'desc'));
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const taskList = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setTasks(taskList);
+    });
+
+    return () => unsubscribe();
+  }, [user]);
+
+  const addTask = async ({ title }) => {
+    if (!user) return;
+
+    await addDoc(collection(db, 'tasks'), {
+      title,
+      status: 'en cours',
+      author: user.name,
+      uid: user.uid,
+      timestamp: serverTimestamp(),
+    });
   };
 
-  const updateTask = (index) => {
-    const updatedTasks = [...tasks];
-    updatedTasks[index].status = 'terminé';
-    setTasks(updatedTasks);
+  const updateTask = async (id) => {
+    await updateDoc(doc(db, 'tasks', id), {
+      status: 'terminé',
+    });
   };
 
-  const deleteTask = (index) => {
-    const updatedTasks = tasks.filter((_, i) => i !== index);
-    setTasks(updatedTasks);
+  const deleteTask = async (id) => {
+    await deleteDoc(doc(db, 'tasks', id));
   };
 
   return (
@@ -25,8 +63,4 @@ export const TaskProvider = ({ children }) => {
       {children}
     </TaskContext.Provider>
   );
-};
-
-export const useTasks = () => {
-  return useContext(TaskContext);
 };

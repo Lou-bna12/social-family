@@ -1,74 +1,77 @@
 import React, { useState } from 'react';
 import { useTasks } from '../context/TaskContext';
+import { useNotifications } from '../context/NotificationContext';
 
 const Tasks = () => {
+  const [taskName, setTaskName] = useState('');
   const { tasks, addTask, updateTask, deleteTask } = useTasks();
-  const [newTask, setNewTask] = useState({ title: '', description: '' });
+  const { addNotification } = useNotifications();
 
-  const handleSubmit = (e) => {
+  const handleAdd = (e) => {
     e.preventDefault();
-    if (newTask.title.trim()) {
-      addTask(newTask);
-      setNewTask({ title: '', description: '' });
-    }
+    if (!taskName.trim()) return;
+
+    addTask({ title: taskName });
+    addNotification(`Nouvelle tâche : ${taskName}`);
+    setTaskName('');
   };
 
   return (
-    <div className="p-8 bg-gray-100 min-h-screen">
-      <h2 className="text-2xl font-bold mb-6">Gestion des Tâches</h2>
+    <div className="max-w-2xl mx-auto p-6">
+      <h1 className="text-2xl font-bold text-[#8d6441] mb-4">
+        Gestion des Tâches
+      </h1>
 
-      <form onSubmit={handleSubmit} className="mb-6 flex gap-4">
+      {/* Ajout de tâche */}
+      <form onSubmit={handleAdd} className="flex gap-2 mb-6">
         <input
           type="text"
-          placeholder="Titre"
-          value={newTask.title}
-          onChange={(e) => setNewTask({ ...newTask, title: e.target.value })}
-          className="border p-2 rounded flex-1"
-        />
-        <input
-          type="text"
-          placeholder="Description"
-          value={newTask.description}
-          onChange={(e) =>
-            setNewTask({ ...newTask, description: e.target.value })
-          }
-          className="border p-2 rounded flex-1"
+          value={taskName}
+          onChange={(e) => setTaskName(e.target.value)}
+          placeholder="Nouvelle tâche"
+          className="flex-grow px-3 py-2 border border-gray-300 rounded"
         />
         <button
           type="submit"
-          className="bg-blue-500 text-white px-4 py-2 rounded"
+          className="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600"
         >
           Ajouter
         </button>
       </form>
 
-      <div className="grid gap-4">
+      {/* Liste des tâches */}
+      <ul className="space-y-3">
         {tasks.map((task, index) => (
-          <div
+          <li
             key={index}
-            className="bg-white p-4 rounded shadow flex justify-between items-center"
+            className="flex justify-between items-center bg-white p-3 rounded shadow"
           >
-            <div>
-              <p className="font-semibold">{task.title}</p>
-              <p className="text-gray-600">{task.description}</p>
-            </div>
+            <span
+              className={
+                task.status === 'terminé' ? 'line-through text-gray-400' : ''
+              }
+            >
+              {task.title}
+            </span>
             <div className="flex gap-2">
-              <button
-                onClick={() => updateTask(index)}
-                className="bg-green-500 text-white px-4 py-2 rounded"
-              >
-                Terminer
-              </button>
+              {task.status === 'en cours' && (
+                <button
+                  onClick={() => updateTask(index)}
+                  className="text-green-600 hover:underline"
+                >
+                  Terminer
+                </button>
+              )}
               <button
                 onClick={() => deleteTask(index)}
-                className="bg-red-500 text-white px-4 py-2 rounded"
+                className="text-red-500 hover:underline"
               >
                 Supprimer
               </button>
             </div>
-          </div>
+          </li>
         ))}
-      </div>
+      </ul>
     </div>
   );
 };

@@ -1,103 +1,93 @@
-import React, { useState, useContext } from 'react';
-import { UserContext } from '../context/UserContext';
+import React, { useState } from 'react';
+import { useUser } from '../context/UserContext';
 
 const Signup = () => {
-  const { registerUser } = useContext(UserContext);
+  const { registerUser } = useUser();
 
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [role, setRole] = useState('');
+  const [form, setForm] = useState({
+    name: '',
+    email: '',
+    password: '',
+    role: 'parent', // parent ou enfant
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setForm({ ...form, [name]: value });
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    // Créer l'objet utilisateur
-    const newUser = {
-      name,
-      email,
-      role,
-    };
-
-    // Enregistrer l'utilisateur
-    registerUser(newUser);
-
-    // Réinitialiser le formulaire
-    setName('');
-    setEmail('');
-    setPassword('');
-    setRole('');
+    registerUser(form);
   };
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-96">
-        <h2 className="text-2xl font-bold mb-6 text-center">Inscription</h2>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          {/* Nom */}
-          <div>
-            <label className="block text-gray-700">Nom</label>
-            <input
-              type="text"
-              placeholder="Entrez votre nom"
-              className="w-full p-2 border rounded"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-            />
-          </div>
+    <div className="flex justify-center items-center min-h-screen bg-[#f8f9fa] px-4">
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white p-6 rounded-lg shadow-md w-full max-w-md space-y-4"
+      >
+        <h2 className="text-xl font-bold text-center text-[#8d6441]">
+          Créer un compte
+        </h2>
 
-          {/* Email */}
-          <div>
-            <label className="block text-gray-700">Email</label>
-            <input
-              type="email"
-              placeholder="Entrez votre email"
-              className="w-full p-2 border rounded"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </div>
+        <div>
+          <label className="block text-sm font-medium">Nom</label>
+          <input
+            type="text"
+            name="name"
+            value={form.name}
+            onChange={handleChange}
+            required
+            className="w-full border border-gray-300 px-3 py-2 rounded mt-1"
+          />
+        </div>
 
-          {/* Mot de passe */}
-          <div>
-            <label className="block text-gray-700">Mot de passe</label>
-            <input
-              type="password"
-              placeholder="Entrez votre mot de passe"
-              className="w-full p-2 border rounded"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </div>
+        <div>
+          <label className="block text-sm font-medium">Email</label>
+          <input
+            type="email"
+            name="email"
+            value={form.email}
+            onChange={handleChange}
+            required
+            className="w-full border border-gray-300 px-3 py-2 rounded mt-1"
+          />
+        </div>
 
-          {/* Rôle */}
-          <div>
-            <label className="block text-gray-700">Rôle</label>
-            <select
-              className="w-full p-2 border rounded"
-              value={role}
-              onChange={(e) => setRole(e.target.value)}
-              required
-            >
-              <option value="">Choisissez un rôle</option>
-              <option value="Papa">Papa</option>
-              <option value="Maman">Maman</option>
-              <option value="Enfant">Enfant</option>
-            </select>
-          </div>
+        <div>
+          <label className="block text-sm font-medium">Mot de passe</label>
+          <input
+            type="password"
+            name="password"
+            value={form.password}
+            onChange={handleChange}
+            required
+            className="w-full border border-gray-300 px-3 py-2 rounded mt-1"
+          />
+        </div>
 
-          {/* Bouton S'inscrire */}
-          <button
-            type="submit"
-            className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
+        <div>
+          <label className="block text-sm font-medium">Rôle</label>
+          <select
+            name="role"
+            value={form.role}
+            onChange={handleChange}
+            className="w-full border border-gray-300 px-3 py-2 rounded mt-1"
           >
-            S'inscrire
-          </button>
-        </form>
-      </div>
+            <option value="papa">Papa</option>
+            <option value="maman">Maman</option>
+            <option value="enfant">Enfant</option>
+          </select>
+        </div>
+
+        <button
+          type="submit"
+          className="w-full bg-orange-500 text-white py-2 rounded hover:bg-orange-600"
+        >
+          S’inscrire
+        </button>
+      </form>
     </div>
   );
 };
