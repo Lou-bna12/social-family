@@ -18,6 +18,7 @@ import { MessagesProvider } from './context/MessagesContext';
 import PrivateRoute from './components/PrivateRoute';
 import FamilyPage from './pages/FamilyPage';
 import Gallery from './pages/Gallery';
+import ProfilePage from './pages/ProfilePage';
 
 function App() {
   return (
@@ -74,6 +75,14 @@ function App() {
                       element={
                         <PrivateRoute>
                           <Gallery />
+                        </PrivateRoute>
+                      }
+                    />
+                    <Route
+                      path="/membre/:name"
+                      element={
+                        <PrivateRoute>
+                          <ProfilePage />
                         </PrivateRoute>
                       }
                     />

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import MemberCard from '../components/MemberCard';
 
 const FamilyPage = () => {
@@ -96,17 +97,18 @@ const FamilyPage = () => {
 
       <div className="flex flex-wrap gap-6 justify-center">
         {members.map((member, index) => (
-          <MemberCard
-            key={index}
-            name={member.name}
-            role={member.role}
-            avatar={member.avatar}
-            onDelete={() => {
-              const updated = [...members];
-              updated.splice(index, 1);
-              setMembers(updated);
-            }}
-          />
+          <Link to={`/membre/${member.name}`} key={index}>
+            <MemberCard
+              name={member.name}
+              role={member.role}
+              avatar={member.avatar}
+              onDelete={() => {
+                const updated = [...members];
+                updated.splice(index, 1);
+                setMembers(updated);
+              }}
+            />
+          </Link>
         ))}
       </div>
     </div>
