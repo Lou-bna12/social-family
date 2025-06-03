@@ -1,27 +1,37 @@
-import React, { createContext, useState, useContext } from 'react';
+// src/context/NotificationContext.js
+import React, { createContext, useContext, useEffect, useState } from 'react';
+import { db } from '../firebase';
+import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
+import { useUser } from './UserContext';
 
 export const NotificationContext = createContext();
-
-export const useNotifications = () => {
-  return useContext(NotificationContext);
-};
+export const useNotifications = () => useContext(NotificationContext);
 
 export const NotificationProvider = ({ children }) => {
+  const { user } = useUser();
   const [notifications, setNotifications] = useState([]);
 
-  const addNotification = (message) => {
-    setNotifications([...notifications, message]);
-  };
+  useEffect(() => {
+    if (!user || !user.uid) return;
 
-  const removeNotification = (index) => {
-    const updatedNotifications = notifications.filter((_, i) => i !== index);
-    setNotifications(updatedNotifications);
-  };
+    const q = query(
+      collection(db, 'notifications'),
+      orderBy('timestamp', 'desc')
+    );
+
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const notifList = snapshot.docs
+        .map((doc) => ({ id: doc.id, ...doc.data() }))
+        .filter((n) => n.uid !== user.uid); // 💡 ne pas afficher sa propre notif
+
+      setNotifications(notifList);
+    });
+
+    return () => unsubscribe();
+  }, [user]);
 
   return (
-    <NotificationContext.Provider
-      value={{ notifications, addNotification, removeNotification }}
-    >
+    <NotificationContext.Provider value={{ notifications }}>
       {children}
     </NotificationContext.Provider>
   );

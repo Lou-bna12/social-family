@@ -1,14 +1,15 @@
+// ✅ src/context/MessagesContext.js
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { db } from '../firebase';
 import {
   collection,
   addDoc,
-  onSnapshot,
   deleteDoc,
   doc,
-  serverTimestamp,
-  query,
+  onSnapshot,
   orderBy,
+  query,
+  serverTimestamp,
 } from 'firebase/firestore';
 import { useUser } from './UserContext';
 
@@ -16,41 +17,56 @@ export const MessagesContext = createContext();
 export const useMessages = () => useContext(MessagesContext);
 
 export const MessagesProvider = ({ children }) => {
-  const [messages, setMessages] = useState([]);
   const { user } = useUser();
+  const [messages, setMessages] = useState([]);
 
-  // 🔁 Charger en temps réel
+  // Écoute en temps réel des messages
   useEffect(() => {
+    if (!user || !user.uid) return;
+
     const q = query(collection(db, 'messages'), orderBy('timestamp', 'desc'));
+
     const unsubscribe = onSnapshot(q, (snapshot) => {
-      const msgs = snapshot.docs.map((doc) => ({
+      const msgList = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
       }));
-      setMessages(msgs);
+      setMessages(msgList);
     });
 
     return () => unsubscribe();
-  }, []);
+  }, [user]);
 
-  // ➕ Ajouter un message
-  const addMessage = async (text, author) => {
-    if (!user) return;
+  // Fonction pour envoyer un message + notif
+  const sendMessage = async (text) => {
+    if (!user || !user.uid || !user.name) {
+      console.warn('⛔ Utilisateur invalide', user);
+      return;
+    }
+
+    // 1. Envoyer le message
     await addDoc(collection(db, 'messages'), {
       text,
-      author,
+      author: user.name,
+      uid: user.uid,
+      timestamp: serverTimestamp(),
+    });
+
+    // 2. Créer une notification pour les autres
+    await addDoc(collection(db, 'notifications'), {
+      text: `${user.name} a posté un message`,
       uid: user.uid,
       timestamp: serverTimestamp(),
     });
   };
 
-  // ❌ Supprimer un message
+  // Supprimer un message
   const deleteMessage = async (id) => {
     await deleteDoc(doc(db, 'messages', id));
   };
 
   return (
-    <MessagesContext.Provider value={{ messages, addMessage, deleteMessage }}>
+    <MessagesContext.Provider value={{ messages, sendMessage, deleteMessage }}>
       {children}
     </MessagesContext.Provider>
   );
