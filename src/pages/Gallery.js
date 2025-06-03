@@ -20,6 +20,7 @@ const memberList = [
 
 const Gallery = () => {
   const [photos, setPhotos] = useState([]);
+  const [search, setSearch] = useState('');
   const [newPhoto, setNewPhoto] = useState({
     file: null,
     caption: '',
@@ -91,6 +92,18 @@ const Gallery = () => {
     <div className="p-6">
       <h2 className="text-2xl font-bold text-center mb-4">📷 Mur de photos</h2>
 
+      {/* 🔍 Barre de recherche */}
+      <div className="max-w-md mx-auto mb-4">
+        <input
+          type="text"
+          placeholder="🔍 Rechercher une photo (auteur ou légende)..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="w-full p-2 border rounded"
+        />
+      </div>
+
+      {/* ➕ Formulaire d'ajout */}
       <form
         onSubmit={handleAddPhoto}
         className="max-w-md mx-auto mb-6 bg-white p-4 rounded-lg shadow space-y-3"
@@ -132,14 +145,21 @@ const Gallery = () => {
         </button>
       </form>
 
+      {/* 🖼️ Affichage filtré des photos */}
       <div className="flex flex-wrap gap-4 justify-center">
-        {photos.map((photo) => (
-          <PhotoCard
-            key={photo.id}
-            {...photo}
-            onDelete={() => handleDelete(photo.id)}
-          />
-        ))}
+        {photos
+          .filter(
+            (p) =>
+              p.caption?.toLowerCase().includes(search.toLowerCase()) ||
+              p.author?.toLowerCase().includes(search.toLowerCase())
+          )
+          .map((photo) => (
+            <PhotoCard
+              key={photo.id}
+              {...photo}
+              onDelete={() => handleDelete(photo.id)}
+            />
+          ))}
       </div>
     </div>
   );

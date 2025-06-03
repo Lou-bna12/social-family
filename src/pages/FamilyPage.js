@@ -42,6 +42,8 @@ const FamilyPage = () => {
     avatar: '',
   });
 
+  const [search, setSearch] = useState('');
+
   const handleAddMember = (e) => {
     e.preventDefault();
     if (newMember.name && newMember.role && newMember.avatar) {
@@ -54,6 +56,18 @@ const FamilyPage = () => {
     <div className="p-6">
       <h2 className="text-2xl font-bold mb-4 text-center">👨‍👩‍👧‍👦 Notre Famille</h2>
 
+      {/* 🔍 Barre de recherche */}
+      <div className="max-w-md mx-auto mb-4">
+        <input
+          type="text"
+          placeholder="🔍 Rechercher un membre..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="w-full p-2 border rounded"
+        />
+      </div>
+
+      {/* ➕ Formulaire d'ajout */}
       <form
         onSubmit={handleAddMember}
         className="max-w-md mx-auto mb-6 bg-white shadow-md rounded-lg p-4 space-y-4"
@@ -95,21 +109,26 @@ const FamilyPage = () => {
         </button>
       </form>
 
+      {/* 👪 Affichage des membres filtrés */}
       <div className="flex flex-wrap gap-6 justify-center">
-        {members.map((member, index) => (
-          <Link to={`/membre/${member.name}`} key={index}>
-            <MemberCard
-              name={member.name}
-              role={member.role}
-              avatar={member.avatar}
-              onDelete={() => {
-                const updated = [...members];
-                updated.splice(index, 1);
-                setMembers(updated);
-              }}
-            />
-          </Link>
-        ))}
+        {members
+          .filter((member) =>
+            member.name.toLowerCase().includes(search.toLowerCase())
+          )
+          .map((member, index) => (
+            <Link to={`/membre/${member.name}`} key={index}>
+              <MemberCard
+                name={member.name}
+                role={member.role}
+                avatar={member.avatar}
+                onDelete={() => {
+                  const updated = [...members];
+                  updated.splice(index, 1);
+                  setMembers(updated);
+                }}
+              />
+            </Link>
+          ))}
       </div>
     </div>
   );
