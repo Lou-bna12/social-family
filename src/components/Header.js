@@ -23,13 +23,29 @@ const Header = () => {
 
       <nav className="flex items-center gap-6 text-white">
         {user && (
-          <Link
-            to="/tasks"
-            className="hover:text-orange-400 flex items-center gap-1"
-          >
-            <ClipboardDocumentCheckIcon className="h-5 w-5" />
-            <span>Tâches</span>
-          </Link>
+          <>
+            <Link
+              to="/profile"
+              className="hover:text-orange-400 flex items-center gap-1"
+            >
+              <span>👤 Profil</span>
+            </Link>
+
+            <Link
+              to="/tasks"
+              className="hover:text-orange-400 flex items-center gap-1"
+            >
+              <ClipboardDocumentCheckIcon className="h-5 w-5" />
+              <span>Tâches</span>
+            </Link>
+
+            <Link
+              to="/famille"
+              className="hover:text-orange-400 flex items-center gap-1"
+            >
+              <span>👨‍👩‍👧‍👦 Famille</span>
+            </Link>
+          </>
         )}
 
         {!user ? (

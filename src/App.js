@@ -16,6 +16,7 @@ import { NotificationProvider } from './context/NotificationContext';
 import { TaskProvider } from './context/TaskContext';
 import { MessagesProvider } from './context/MessagesContext';
 import PrivateRoute from './components/PrivateRoute';
+import FamilyPage from './pages/FamilyPage';
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
                     <Route path="/" element={<Home />} />
                     <Route path="/signup" element={<Signup />} />
                     <Route path="/login" element={<Login />} />
+                    <Route path="/famille" element={<FamilyPage />} />
 
                     {/* Routes privées */}
                     <Route
