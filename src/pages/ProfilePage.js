@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { db } from '../firebase';
 import { collection, getDocs } from 'firebase/firestore';
 import PhotoCard from '../components/PhotoCard';
+import { Link } from 'react-router-dom';
 
 const memberList = [
   {
@@ -59,6 +60,14 @@ const ProfilePage = () => {
 
   return (
     <div className="p-6">
+      <div className="mb-4">
+        <Link
+          to="/famille"
+          className="text-[#a9825c] hover:underline font-semibold"
+        >
+          ⬅ Retour à la famille
+        </Link>
+      </div>
       <div className="text-center mb-6">
         <img
           src={member.avatar}
