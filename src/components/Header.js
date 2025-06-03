@@ -47,6 +47,12 @@ const Header = () => {
             </Link>
           </>
         )}
+        <Link
+          to="/galerie"
+          className="hover:text-orange-400 flex items-center gap-1"
+        >
+          <span>📷 Galerie</span>
+        </Link>
 
         {!user ? (
           <>

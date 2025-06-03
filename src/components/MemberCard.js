@@ -1,8 +1,8 @@
 import React from 'react';
 
-const MemberCard = ({ name, role, avatar }) => {
+const MemberCard = ({ name, role, avatar, onDelete }) => {
   return (
-    <div className="p-4 bg-white rounded-2xl shadow-md text-center max-w-[150px]">
+    <div className="p-4 bg-white rounded-2xl shadow-md text-center max-w-[150px] relative">
       <img
         src={avatar}
         alt={name}
@@ -10,6 +10,15 @@ const MemberCard = ({ name, role, avatar }) => {
       />
       <h3 className="font-semibold text-lg">{name}</h3>
       <p className="text-sm text-gray-600">{role}</p>
+
+      {/* Bouton Supprimer */}
+      <button
+        onClick={onDelete}
+        className="absolute top-2 right-2 bg-red-500 hover:bg-red-600 text-white rounded-full px-2 py-1 text-xs"
+        title="Supprimer"
+      >
+        🗑
+      </button>
     </div>
   );
 };

@@ -17,6 +17,7 @@ import { TaskProvider } from './context/TaskContext';
 import { MessagesProvider } from './context/MessagesContext';
 import PrivateRoute from './components/PrivateRoute';
 import FamilyPage from './pages/FamilyPage';
+import Gallery from './pages/Gallery';
 
 function App() {
   return (
@@ -65,6 +66,14 @@ function App() {
                       element={
                         <PrivateRoute>
                           <Messages />
+                        </PrivateRoute>
+                      }
+                    />
+                    <Route
+                      path="/galerie"
+                      element={
+                        <PrivateRoute>
+                          <Gallery />
                         </PrivateRoute>
                       }
                     />
