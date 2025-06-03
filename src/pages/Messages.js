@@ -19,6 +19,14 @@ const Messages = () => {
     }
   };
 
+  // 🧪 DEBUG ici :
+  console.log('➡️ notifications[0] :', notifications[0]);
+  console.log('➡️ notifications[0]?.text :', notifications[0]?.text);
+  console.log(
+    '➡️ Type de notifications[0]?.text :',
+    typeof notifications[0]?.text
+  );
+
   return (
     <div className="max-w-2xl mx-auto w-full px-4 sm:px-6 py-6">
       <QuickNav />

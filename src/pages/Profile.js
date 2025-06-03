@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useUser } from '../context/UserContext';
 import { Link } from 'react-router-dom';
 import QuickNav from '../components/QuickNav';
+import UploadAvatar from '../components/UploadAvatar';
 
 const Profile = () => {
   const { user } = useUser();
@@ -24,10 +25,25 @@ const Profile = () => {
 
   return (
     <div className="max-w-xl mx-auto p-6">
-      <QuickNav /> {/* 👈 Ajout du menu rapide ici */}
+      <QuickNav />
       <h1 className="text-2xl font-bold text-[#8d6441] mb-6">Mon Profil</h1>
+
+      {/* ✅ Affichage de la photo de profil */}
+      {user?.photoURL && (
+        <div className="flex justify-center mb-4">
+          <img
+            src={user.photoURL}
+            alt="Avatar"
+            className="w-24 h-24 rounded-full object-cover border-2 border-orange-400"
+          />
+        </div>
+      )}
+
+      {/* ✅ Upload de nouvelle photo */}
+      <UploadAvatar />
+
       {!editMode ? (
-        <div className="bg-white shadow-md rounded p-6 space-y-4">
+        <div className="bg-white shadow-md rounded p-6 space-y-4 mt-4">
           <p>
             <strong>Nom :</strong> {user?.name}
           </p>
@@ -47,7 +63,7 @@ const Profile = () => {
       ) : (
         <form
           onSubmit={handleSave}
-          className="bg-white shadow-md rounded p-6 space-y-4"
+          className="bg-white shadow-md rounded p-6 space-y-4 mt-4"
         >
           <div>
             <label className="block text-sm font-medium">Nom</label>
@@ -91,7 +107,7 @@ const Profile = () => {
           </div>
         </form>
       )}
-      {/* 👇 Lien vers la page messages */}
+
       <div className="mt-6 text-center">
         <p className="text-sm text-gray-600">
           Envie de lire ou d’écrire un message ?

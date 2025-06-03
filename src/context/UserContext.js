@@ -1,13 +1,13 @@
-// src/context/UserContext.js
-import React, { createContext, useState, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+// ✅ src/context/UserContext.js
+import React, { createContext, useContext, useState } from 'react';
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
 } from 'firebase/auth';
 import { auth, db } from '../firebase';
-import { setDoc, doc, getDoc } from 'firebase/firestore';
+import { doc, setDoc, getDoc } from 'firebase/firestore';
+import { useNavigate } from 'react-router-dom';
 
 export const UserContext = createContext();
 export const useUser = () => useContext(UserContext);
@@ -26,6 +26,7 @@ export const UserProvider = ({ children }) => {
         email,
         password
       );
+
       const newUser = {
         uid: userCredential.user.uid,
         name,
@@ -33,9 +34,7 @@ export const UserProvider = ({ children }) => {
         role,
       };
 
-      // 🔐 Sauvegarder les infos dans Firestore
       await setDoc(doc(db, 'users', newUser.uid), newUser);
-
       setUser(newUser);
       localStorage.setItem('user', JSON.stringify(newUser));
       navigate('/dashboard');
@@ -52,8 +51,6 @@ export const UserProvider = ({ children }) => {
         password
       );
       const uid = userCredential.user.uid;
-
-      // 🔍 Récupérer les infos stockées dans Firestore
       const docRef = doc(db, 'users', uid);
       const docSnap = await getDoc(docRef);
 
@@ -77,8 +74,19 @@ export const UserProvider = ({ children }) => {
     navigate('/login');
   };
 
+  const updateUserProfile = async (updates) => {
+    const userRef = doc(db, 'users', user.uid);
+    await setDoc(userRef, { ...user, ...updates }, { merge: true });
+
+    const updatedUser = { ...user, ...updates };
+    setUser(updatedUser);
+    localStorage.setItem('user', JSON.stringify(updatedUser));
+  };
+
   return (
-    <UserContext.Provider value={{ user, registerUser, loginUser, logoutUser }}>
+    <UserContext.Provider
+      value={{ user, registerUser, loginUser, logoutUser, updateUserProfile }}
+    >
       {children}
     </UserContext.Provider>
   );

@@ -44,8 +44,8 @@ const Dashboard = () => {
           <p>Pas de notifications récentes</p>
         ) : (
           <ul className="list-disc pl-4 text-sm text-gray-600">
-            {notifications.map((n, i) => (
-              <li key={i}>{n}</li>
+            {notifications.map((n) => (
+              <li key={n.id}>{n.text}</li> // ✅ Affiche uniquement le texte
             ))}
           </ul>
         )}
